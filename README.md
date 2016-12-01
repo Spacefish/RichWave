@@ -8,5 +8,8 @@ Created by Timo Witte
 Modified by der-Frickler.net
   - Added RSSI Pin and RSSI Reading.
   
-  - Added 4x Richwave RX5808 Video Receiver as Example. Attach the 4 RX modules to a video processor: http://www.banggood.com/de/4-CH-Channel-DVR-CCTV-Quad-Video-Camera-Processor-System-kit-Splitter-Switcher-p-1032225.html and you get a nice splitscreen view of 4 different FPV Channels: https://www.youtube.com/watch?v=YXnQFq7hVz4
+  - Added 4x Richwave RX5808 Video Receiver as Example. Attach the 4 RX modules to a video processor: 
+  http://www.banggood.com/de/4-CH-Channel-DVR-CCTV-Quad-Video-Camera-Processor-System-kit-Splitter-Switcher-p-1032225.html 
+  and you get a nice splitscreen view of 4 different FPV Channels: 
+  https://www.youtube.com/watch?v=YXnQFq7hVz4
 
