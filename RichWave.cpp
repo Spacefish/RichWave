@@ -13,16 +13,21 @@ DO WHATEVER YOU WANT PUBLIC LICENSE
 Version 1.0:
   - initial version
   - set Register and setFrequency support
+  
+  Modified by der-Frickler.net
+  - Added RSSI Pin and RSSI Reading.
+  
 */
 
 #include "RichWave.h"
 
 // SPIDATA = CS0; SPILE = CS1; SPICLK = CS2
-RichWave::RichWave(uint8_t spiDataPin, uint8_t spiLePin, uint8_t spiClkPin)
+RichWave::RichWave(uint8_t spiDataPin, uint8_t spiLePin, uint8_t spiClkPin, uint8_t rSSIPin)
 {
 	dataPin = spiDataPin;
 	lePin = spiLePin;
 	clkPin = spiClkPin;
+        rssiPin = rSSIPin;
 	
 	pinMode(spiDataPin, OUTPUT);
 	pinMode(spiLePin, OUTPUT);
@@ -39,6 +44,7 @@ void RichWave::setFrequency(int freq) {
 	// A Part
 	int a = (freq%64)/2;
 	setRegister(0x01, a | (n << 7));
+        lastTuned = millis();
 }
 
 void RichWave::setRegister(byte address, unsigned long data) {
@@ -68,4 +74,29 @@ void RichWave::sendBit(boolean isOne) {
 	// generate clock pulse
 	digitalWrite(clkPin, HIGH);
 	digitalWrite(clkPin, LOW);
+}
+
+
+// ----------------------------------------------------------------------------
+// readRSSI  read rssi of given module.
+// ----------------------------------------------------------------------------
+uint16_t RichWave::readRSSI()
+{
+  // check if RSSI is stable after tune by checking the time
+  uint16_t tune_time = millis() - lastTuned;
+  // module need >20ms to tune.
+  if (tune_time < 30)
+  {
+    // wait until tune time is full filled
+    delay(30 - tune_time);
+  }
+    
+  uint16_t rssi = 0;
+  for (uint8_t i = 0; i < 10; i++)
+  {
+    rssi += analogRead(rssiPin);
+  }
+  rssi = rssi / 10; // average
+  
+  return rssi;
 }
